@@ -25,11 +25,11 @@ public class PlayerMovement : MonoBehaviour
         //Flip sprite when moving left/right
         if (horizontalInput > 0.01f)
         {
-            transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         }
         else if (horizontalInput < - 0.01f)
         {
-            transform.localScale = new Vector3(-0.2f,0.2f,0.2f);
+            transform.localScale = new Vector3(-0.3f,0.3f,0.3f);
         }
         //Jump logic
         if (isGrounded())
