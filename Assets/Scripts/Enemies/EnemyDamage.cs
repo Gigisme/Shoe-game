@@ -6,8 +6,16 @@ public class EnemyDamage : MonoBehaviour
 {
     [SerializeField] private float damage;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        collision.GetComponent<Health>().TakeDamage(damage);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            foreach(ContactPoint2D contact in collision.contacts)
+            {
+                //Deal damage NOT from above
+                if (contact.normal.y > -0.9f)
+                    collision.gameObject.GetComponent<Health>().TakeDamage(1);
+            }
+        }
     }
 }

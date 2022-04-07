@@ -62,12 +62,25 @@ public class PlayerMovement : MonoBehaviour
                 jumpHeight = 0;
             }
         }
-            
     }
     private bool isGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
         return raycastHit.collider != null;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Damage enemy
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            foreach(ContactPoint2D contact in collision.contacts)
+            {
+                //Only from above
+                if (contact.normal.y >= 0.9f)
+                    collision.gameObject.GetComponent<Health>().TakeDamage(1);
+            }
+        }
     }
     private void jump(float length, float height)
     {
@@ -75,6 +88,5 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2( length * -1,  height);
         else if (transform.localScale.x > 0f)
             body.velocity = new Vector2( length * 1,  height);
-        print("jump");
     }
 }
