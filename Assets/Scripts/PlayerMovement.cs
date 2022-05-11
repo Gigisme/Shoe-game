@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float maxJump;
     private Rigidbody2D body;
     private BoxCollider2D boxCollider;
+    public Vector3 respawnPoint;
     
     private float jumpHeight;
 
@@ -14,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        respawnPoint = transform.position;
 
         jumpHeight = 0f;
     }
@@ -88,5 +90,10 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2( length * -1,  height);
         else if (transform.localScale.x > 0f)
             body.velocity = new Vector2( length * 1,  height);
+    }
+
+    public void Dead()
+    {
+        transform.position = respawnPoint;
     }
 }
