@@ -5,6 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] private float startingHealth;
+    [SerializeField] private Behaviour[] components;
     public float currentHealth { get; private set; }
     private void Start()
     {
@@ -14,20 +15,25 @@ public class Health : MonoBehaviour
     public void TakeDamage(float _damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
+
         if (currentHealth == 0)
         {
-            //player dies
-            
-            
+            foreach (Behaviour comp in components)
+            {
+                comp.enabled = false;
+            }
+            if (gameObject.CompareTag("Enemy"))// remove after player respawn implemented
+                Deactivate();
         }
     }
 
-    private void Update()
+    public void AddHealth(float _heal)
     {
-        //Testing tkaing damage
-        if (Input.GetKey(KeyCode.E))
-        {
-            TakeDamage(1);
-        }
+        currentHealth = Mathf.Clamp(currentHealth + _heal, 0, startingHealth);
+    }
+
+    private void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
 }
