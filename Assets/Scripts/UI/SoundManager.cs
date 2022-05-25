@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] Slider VolumeSlider;
-
+    private AudioSource source;
+    public static SoundManager Instance { get; private set; }
     void Start()
     {
         if (!PlayerPrefs.HasKey("MusicVolume"))
@@ -17,7 +18,10 @@ public class SoundManager : MonoBehaviour
         else
             Load();
     }
-
+    public void PlaySound(AudioClip sound)
+    {
+        source.PlayOneShot(sound);
+    }
     public void ChangeVolume()
     {
         AudioListener.volume = VolumeSlider.value;

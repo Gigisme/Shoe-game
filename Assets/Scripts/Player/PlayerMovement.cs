@@ -3,67 +3,57 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] public float minJump;
-    [SerializeField] public float maxJump;
+    [SerializeField] private float Speed;
+    [SerializeField] private float JumpHeight;
+
+    private float jumpTimeCounter;
+    [SerializeField] private float jumpTime;
+    private bool isJumping;
+
     private Rigidbody2D body;
     private BoxCollider2D boxCollider;
     public Vector3 respawnPoint;
-    
-    private float jumpHeight;
 
-    private void Start()
+    [Header("SFX")]
+    [SerializeField] private AudioClip jumpSound;
+
+    private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         respawnPoint = transform.position;
-
-        jumpHeight = 0f;
     }
     // Update is called once per frame
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
+        body.velocity = new Vector2(horizontalInput * Speed, body.velocity.y);
+        
+        if(horizontalInput > 0.01f)
+            transform.localScale = new Vector3 (0.2f, 0.2f, 0.2f);
+        if (horizontalInput < -0.01f)
+            transform.localScale = new Vector3(-0.2f, 0.2f, 0.2f);
 
-        //Flip sprite when moving left/right
-        if (horizontalInput > 0.01f)
+        if (Input.GetKey(KeyCode.Space) && isGrounded())
         {
-            transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            if (Input.GetKeyDown(KeyCode.Space))
+                SoundManager.Instance.PlaySound(jumpSound);
+            body.velocity = new Vector2(body.velocity.x, JumpHeight);
+            isJumping = true;
+            jumpTimeCounter = jumpTime;
         }
-        else if (horizontalInput < - 0.01f)
+        if (Input.GetKey(KeyCode.Space) && isJumping == true)
         {
-            transform.localScale = new Vector3(-0.3f,0.3f,0.3f);
+            if(jumpTimeCounter > 0)
+            {
+                body.velocity = new Vector2(body.velocity.x, JumpHeight);
+                jumpTimeCounter-=Time.deltaTime;
+            }
+            else
+                isJumping = false;
         }
-        //Jump logic
-        if (isGrounded())
-        {
-            body.velocity = new Vector2(0f, 0f);
-            if (!Input.GetKey(KeyCode.Space) && 
-                (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
-                )
-            {
-                jump(minJump, minJump);
-            }
-
-            //Charge jump
-            if (Input.GetKey(KeyCode.Space))
-            {
-                if (jumpHeight < maxJump)
-                {
-                    jumpHeight += Time.deltaTime * maxJump;
-                }
-                else
-                {
-                    jumpHeight = maxJump;
-                }
-            }
-            //Do jump action
-            else if (Input.GetKeyUp(KeyCode.Space))
-            {
-                if (jumpHeight < minJump) { jumpHeight = minJump; }
-                jump(jumpHeight / 2, jumpHeight);
-                jumpHeight = 0;
-            }
-        }
+        if(Input.GetKeyUp(KeyCode.Space))
+            isJumping=false;
     }
     private bool isGrounded()
     {
