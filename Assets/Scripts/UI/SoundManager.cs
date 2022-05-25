@@ -18,6 +18,11 @@ public class SoundManager : MonoBehaviour
         else
             Load();
     }
+    private void Awake()
+    {
+        source = GetComponent<AudioSource>();
+        Instance = this;
+    }
     public void PlaySound(AudioClip sound)
     {
         source.PlayOneShot(sound);

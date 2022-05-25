@@ -34,10 +34,9 @@ public class PlayerMovement : MonoBehaviour
         if (horizontalInput < -0.01f)
             transform.localScale = new Vector3(-0.2f, 0.2f, 0.2f);
 
-        if (Input.GetKey(KeyCode.Space) && isGrounded())
+        if (Input.GetKey(KeyCode.Space) && IsGrounded())
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-                SoundManager.Instance.PlaySound(jumpSound);
+            SoundManager.Instance.PlaySound(jumpSound);
             body.velocity = new Vector2(body.velocity.x, JumpHeight);
             isJumping = true;
             jumpTimeCounter = jumpTime;
@@ -55,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Space))
             isJumping=false;
     }
-    private bool isGrounded()
+    private bool IsGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
         return raycastHit.collider != null;
@@ -73,13 +72,6 @@ public class PlayerMovement : MonoBehaviour
                     collision.gameObject.GetComponent<Health>().TakeDamage(1);
             }
         }
-    }
-    private void jump(float length, float height)
-    {
-        if (transform.localScale.x < 0f)
-            body.velocity = new Vector2( length * -1,  height);
-        else if (transform.localScale.x > 0f)
-            body.velocity = new Vector2( length * 1,  height);
     }
 
     public void Dead()
