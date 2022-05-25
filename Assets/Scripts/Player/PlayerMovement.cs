@@ -30,9 +30,9 @@ public class PlayerMovement : MonoBehaviour
         body.velocity = new Vector2(horizontalInput * Speed, body.velocity.y);
         
         if(horizontalInput > 0.01f)
-            transform.localScale = new Vector3 (0.2f, 0.2f, 0.2f);
+            transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
         if (horizontalInput < -0.01f)
-            transform.localScale = new Vector3(-0.2f, 0.2f, 0.2f);
+            transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
 
         if (Input.GetKey(KeyCode.Space) && IsGrounded())
         {

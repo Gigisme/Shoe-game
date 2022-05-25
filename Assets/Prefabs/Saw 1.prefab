@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6806171581015726164}
   - component: {fileID: 6806171581015726166}
   - component: {fileID: 6806171581015726167}
+  - component: {fileID: 4010115938300239861}
   m_Layer: 7
   m_Name: Saw
   m_TagString: Enemy
@@ -140,6 +141,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.360404, y: 0.37440115}
   m_EdgeRadius: 0
+--- !u!114 &4010115938300239861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6806171581015726162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a06f6a106d9b417697b1f871c4a9b9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
 --- !u!1 &6806171582265337193
 GameObject:
   m_ObjectHideFlags: 0
