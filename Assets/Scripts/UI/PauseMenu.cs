@@ -40,6 +40,11 @@ public class PauseMenu : MonoBehaviour
         OptionsMenuUI.SetActive(true);
     }
 
+    public void QuitGame()
+    {
+        Debug.Log("Quitting game");
+    }
+
     void Pause()
     {
         pauseMenuUI.SetActive(true);
